@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 2047824936626493660}
   - component: {fileID: 3288525000176219311}
   m_Layer: 5
-  m_Name: Bullet
+  m_Name: player-bullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -36,7 +36,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: -4}
   m_SizeDelta: {x: 4, y: 6}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!222 &4590713946821039052
@@ -67,7 +67,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: b9b772cdd841468459e143eddee3323f, type: 3}
+  m_Sprite: {fileID: 1877104278, guid: 0511f5200cd3744499f26e3174e30ce7, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -109,7 +109,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 3.5}
+  m_Offset: {x: 0, y: 3}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -120,7 +120,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 4, y: 7}
+  m_Size: {x: 4, y: 6}
   m_EdgeRadius: 0
 --- !u!50 &3288525000176219311
 Rigidbody2D:

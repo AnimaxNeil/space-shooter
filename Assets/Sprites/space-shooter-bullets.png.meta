@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: f6d370242aa6c1e4e92462677d1c2435
+guid: 0511f5200cd3744499f26e3174e30ce7
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -136,13 +136,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: player-ship_0
+      name: space-shooter-bullets_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 16
-        width: 16
-        height: 16
+        y: 6
+        width: 4
+        height: 6
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -150,20 +150,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2e0240553b652a646ba5a2cba3801e37
-      internalID: -1233441379
+      spriteID: 7e1109f44c32cfc4c9d43c53536b4912
+      internalID: 1877104278
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player-ship_1
+      name: space-shooter-bullets_1
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 16
-        height: 16
+        x: 4
+        y: 6
+        width: 4
+        height: 6
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -171,8 +171,50 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9680d845659482148b36e7d5f605e3fd
-      internalID: 1948992508
+      spriteID: df02051f426deb248bcf0d1582df366c
+      internalID: -758691771
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: space-shooter-bullets_2
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 4
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5b3d0259f189cc541b832b8178c25225
+      internalID: 546763580
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: space-shooter-bullets_3
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 0
+        width: 4
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9f878d0f2755c0341af7130e5cf2187e
+      internalID: 1526718215
       vertices: []
       indices: 
       edges: []
@@ -188,8 +230,10 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      player-ship_0: -1233441379
-      player-ship_1: 1948992508
+      space-shooter-bullets_0: 1877104278
+      space-shooter-bullets_1: -758691771
+      space-shooter-bullets_2: 546763580
+      space-shooter-bullets_3: 1526718215
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
