@@ -2,11 +2,11 @@
 
 > submission for GBJam11  
 
-*version* : **0.1**  
+*version* : **0.2**  
 *update date* : 26 September 2023  
 
 *developer* : **AnimaxNeil**  
-*release date* : 26 September 2023  
+*release date* : 25 September 2023  
 *platform* : Windows, WebGL  
 *primary tool* : Unity  
 
