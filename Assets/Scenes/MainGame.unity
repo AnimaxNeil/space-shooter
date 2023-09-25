@@ -976,8 +976,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -4}
-  m_SizeDelta: {x: 0, y: -8}
+  m_AnchoredPosition: {x: 0, y: -4.5}
+  m_SizeDelta: {x: 0, y: -9}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &742958652
 MonoBehaviour:
@@ -1401,15 +1401,18 @@ MonoBehaviour:
       m_Calls: []
   m_text: '
 
-
     <size=16>Game Over</size>
 
 
     You couldn''t save the galaxy.
 
 
+
     [
-    Space / R.Ctrl ]'
+    Space / R.Ctrl ]
+
+
+    Space Shooter'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: db9d31c72cfe7bc49a9beddc4b68f000, type: 2}
   m_sharedMaterial: {fileID: 3115394537798934105, guid: db9d31c72cfe7bc49a9beddc4b68f000, type: 2}
@@ -1545,15 +1548,18 @@ MonoBehaviour:
       m_Calls: []
   m_text: '
 
-
     <size=16>Victory!</size>
 
 
     You have saved the galaxy.
 
 
+
     [
-    Space / R.Ctrl ]'
+    Space / R.Ctrl ]
+
+
+    Space Shooter'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: db9d31c72cfe7bc49a9beddc4b68f000, type: 2}
   m_sharedMaterial: {fileID: 3115394537798934105, guid: db9d31c72cfe7bc49a9beddc4b68f000, type: 2}
@@ -2085,15 +2091,19 @@ MonoBehaviour:
       m_Calls: []
   m_text: '
 
+    Welcome to
 
-    Welcome to Space Shooter.
-
-
-    Shoot all the enemy ships and save
-    the galaxy.
+    Space Shooter.
 
 
-    [ Space / R.Ctrl ]'
+    Shoot all the enemy ships and
+    save the galaxy.
+
+
+    [ Space / R.Ctrl ]
+
+
+    NMX\0'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: db9d31c72cfe7bc49a9beddc4b68f000, type: 2}
   m_sharedMaterial: {fileID: 3115394537798934105, guid: db9d31c72cfe7bc49a9beddc4b68f000, type: 2}

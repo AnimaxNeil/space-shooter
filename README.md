@@ -4,16 +4,20 @@
 
 *version* : **0.1**  
 *update date* : 26 September 2023  
-*release date* : 26 September 2023  
+
 *developer* : **AnimaxNeil**  
+*release date* : 26 September 2023  
+*platform* : Windows, WebGL  
+*primary tool* : Unity  
 
 ---
 <br>
 
+## Description  
 Fly a spaceship and shoot other spaceships.  
 Shoot all the enemies and save the galaxy.  
 
-## Links
+## Links  
 *Itch* : https://animaxneil.itch.io/space-shooter  
 
 ## Contact  
