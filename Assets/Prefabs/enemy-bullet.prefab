@@ -10,9 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 6412703904611645826}
   - component: {fileID: 4590713946821039052}
+  - component: {fileID: 2549745120255784416}
   - component: {fileID: 4458746747173894044}
   - component: {fileID: 2047824936626493660}
-  - component: {fileID: 3288525000176219311}
+  - component: {fileID: -8635976053069683485}
   m_Layer: 5
   m_Name: enemy-bullet
   m_TagString: Untagged
@@ -47,6 +48,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7872229832744737403}
   m_CullTransparentMesh: 1
+--- !u!114 &2549745120255784416
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7872229832744737403}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 487ed487b1b431a4e84523f1ad5deca2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bulletType: 1
+  idleImgA: {fileID: 546763580, guid: 0511f5200cd3744499f26e3174e30ce7, type: 3}
+  idleImgB: {fileID: 1526718215, guid: 0511f5200cd3744499f26e3174e30ce7, type: 3}
+  moving: 1
 --- !u!114 &4458746747173894044
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -106,7 +123,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: -3}
@@ -122,7 +139,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 4, y: 6}
   m_EdgeRadius: 0
---- !u!50 &3288525000176219311
+--- !u!50 &-8635976053069683485
 Rigidbody2D:
   serializedVersion: 4
   m_ObjectHideFlags: 0
@@ -131,12 +148,12 @@ Rigidbody2D:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7872229832744737403}
   m_BodyType: 0
-  m_Simulated: 0
+  m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 0
-  m_AngularDrag: 0.05
+  m_AngularDrag: 0
   m_GravityScale: 0
   m_Material: {fileID: 0}
   m_IncludeLayers:

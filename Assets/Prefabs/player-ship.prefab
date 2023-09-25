@@ -10,8 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 7946051546232308163}
   - component: {fileID: 1067562059330728458}
-  - component: {fileID: 3770054723041960795}
   - component: {fileID: 6468161011450814832}
+  - component: {fileID: 3770054723041960795}
+  - component: {fileID: 509989968620739794}
+  - component: {fileID: -3411342648366306838}
   m_Layer: 5
   m_Name: player-ship
   m_TagString: Untagged
@@ -46,6 +48,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8583767922048239335}
   m_CullTransparentMesh: 1
+--- !u!114 &6468161011450814832
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8583767922048239335}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b40fd75bad26dc448d95bb012180910, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shipType: 0
+  idleImgA: {fileID: -1594230132, guid: 8cde9108d85006449be5977faf6d4d35, type: 3}
+  idleImgB: {fileID: 1336666923, guid: 8cde9108d85006449be5977faf6d4d35, type: 3}
+  bulletPrefab: {fileID: 6524609642953849770, guid: a3d18b78984bc07499d29de819bc3043, type: 3}
 --- !u!114 &3770054723041960795
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -76,21 +94,75 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &6468161011450814832
-MonoBehaviour:
+--- !u!61 &509989968620739794
+BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8583767922048239335}
   m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6b40fd75bad26dc448d95bb012180910, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  controllerType: 0
-  shipIdleA: {fileID: -1594230132, guid: 8cde9108d85006449be5977faf6d4d35, type: 3}
-  shipIdleB: {fileID: 1336666923, guid: 8cde9108d85006449be5977faf6d4d35, type: 3}
-  bulletPrefab: {fileID: 6412703904611645826, guid: a3d18b78984bc07499d29de819bc3043, type: 3}
-  bulletMovingA: {fileID: 1877104278, guid: 0511f5200cd3744499f26e3174e30ce7, type: 3}
-  bulletMovingB: {fileID: -758691771, guid: 0511f5200cd3744499f26e3174e30ce7, type: 3}
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 15, y: 15}
+  m_EdgeRadius: 0
+--- !u!50 &-3411342648366306838
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8583767922048239335}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0

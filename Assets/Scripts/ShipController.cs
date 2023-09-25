@@ -1,211 +1,216 @@
-using UnityEngine;
-using UnityEngine.UI;
-
-public sealed class ShipController : MonoBehaviour
+namespace NMX.SpaceShooter.Controllers
 {
-    private enum ControllerType { Player, Enemy, }
-    [SerializeField]
-    private ControllerType controllerType;
-    [SerializeField]
-    private Sprite shipIdleA, shipIdleB;
-    private bool allowHorizontalMovement, allowVerticalMovement;
-    private int coordinateLimitX, coordinateLimitY;
-    private float shipMovementDelay, idleEffectsDelay, bulletMovementDelay, bulletEffectsDelay;
-    private float shipMovementTimer, idleEffectsTimer, bulletMovementTimer, bulletEffectsTimer;
-    private float autoBulletFireDelay;
-    private float autoBulletFireTimer;
-    private RectTransform ship;
-    private Image shipImg;
-    [SerializeField]
-    private RectTransform bulletPrefab;
-    [SerializeField]
-    private Sprite bulletMovingA, bulletMovingB;
-    private RectTransform bullet;
-    private Image bulletImg;
-    private bool bulletShot;
+    using Data;
+    using UnityEngine;
+    using UnityEngine.UI;
+
+    public sealed class ShipController : MonoBehaviour
+    {
+        public enum ShipType { Player, EnemyDrone, }
+        public ShipType shipType;
+        [SerializeField]
+        private Sprite idleImgA, idleImgB;
+        [SerializeField]
+        private BulletController bulletPrefab;
+        public static event System.Action<ShipController> OnDestroyed, OnBulletFired;
+        private BulletController bullet;
+        private RectTransform rectTransform;
+        private Image image;
+        private bool allowHorizontalMovement, allowVerticalMovement;
+        private int coordinateLimitX, coordinateLimitY;
+        private float movementDelay, idleEffectsDelay;
+        private float movementTimer, idleEffectsTimer;
+        private enum AutoMovementDirection { Left, Right }
+        private AutoMovementDirection autoMovementDirection;
+        private bool autoMovementLeftDone, autoMovementRightDone;
 
 
-    private void Start()
-    {
-        Initialize();
-    }
-
-    private void Update()
-    {
-        CheckActions();
-        CheckMovement();
-        CheckEffects();
-    }
-
-    private void MoveLeft()
-    {
-        if (ship.anchoredPosition.x <= -coordinateLimitX) return;
-        ship.anchoredPosition += Vector2.left;
-    }
-    private void MoveRight()
-    {
-        if (ship.anchoredPosition.x >= coordinateLimitX) return;
-        ship.anchoredPosition += Vector2.right;
-    }
-    private void MoveUp()
-    {
-        if (ship.anchoredPosition.y >= coordinateLimitY) return;
-        ship.anchoredPosition += Vector2.up;
-    }
-    private void MoveDown()
-    {
-        if (ship.anchoredPosition.y <= -coordinateLimitY) return;
-        ship.anchoredPosition += Vector2.down;
-    }
-    private void CheckMovement()
-    {
-        //common
-        if (shipMovementTimer < shipMovementDelay) { shipMovementTimer += Time.deltaTime; return; }
-        shipMovementTimer = 0;
-        //specifics
-        switch (controllerType)
+        private void Start()
         {
-            case ControllerType.Player:
-                if (allowHorizontalMovement && Input.GetKey(KeyCode.LeftArrow)) MoveLeft();
-                if (allowHorizontalMovement && Input.GetKey(KeyCode.RightArrow)) MoveRight();
-                if (allowVerticalMovement && Input.GetKey(KeyCode.UpArrow)) MoveUp();
-                if (allowVerticalMovement && Input.GetKey(KeyCode.DownArrow)) MoveDown();
-                break;
-            case ControllerType.Enemy:
-                //MoveDown();
-                if (Random.Range(0, 2) == 0 && ship.anchoredPosition.x > -coordinateLimitX) MoveLeft(); else MoveRight();
-                break;
+            SetDefaultValues();
+            Initialize();
         }
-    }
-
-    private void SpawnBullet()
-    {
-        if (bullet != null) return;
-        bulletShot = false;
-        bullet = Instantiate(bulletPrefab, ship);
-        bulletImg = bullet.GetComponent<Image>();
-        bulletImg.sprite = Random.Range(0, 2) == 0 ? bulletMovingA : bulletMovingB;
-    }
-    private void DestroyBullet()
-    {
-        if (bullet == null) return;
-        Destroy(bullet.gameObject);
-        bullet = null;
-        bulletShot = false;
-        SpawnBullet();
-    }
-    private void ShootBullet()
-    {
-        if (bullet == null) return;
-        bulletShot = true;
-        bullet.SetParent(ship.transform.parent, true);
-    }
-    private void MoveBullet()
-    {
-        //common
-        if (!(bulletShot && bullet != null)) return;
-        if (bulletMovementTimer < bulletMovementDelay) { bulletMovementTimer += Time.deltaTime; return; }
-        bulletMovementTimer = 0;
-        //specifics
-        switch (controllerType)
+        private void Update()
         {
-            case ControllerType.Player:
-                bullet.anchoredPosition += Vector2.up;
-                if (bullet.anchoredPosition.y >= 0) DestroyBullet();
-                break;
-            case ControllerType.Enemy:
-                bullet.anchoredPosition += Vector2.down;
-                if (bullet.anchoredPosition.y <= 0) DestroyBullet();
-                break;
+            if (!GameStats.running) return;
+            CheckActions();
+            CheckMovement();
+            CheckEffects();
         }
-    }
-    private void AutoBulletFire()
-    {
-        if (autoBulletFireDelay < 0) return;
-        if (autoBulletFireTimer < autoBulletFireDelay) { autoBulletFireTimer += Time.deltaTime; return; }
-        autoBulletFireTimer = 0;
-        SpawnBullet();
-        ShootBullet();
-    }
-    private void CheckActions()
-    {
-        //common
-        AutoBulletFire();
-        MoveBullet();
-        //specifics
-        switch (controllerType)
+        private void OnTriggerEnter2D(Collider2D other)
         {
-            case ControllerType.Player:
-                if (!bulletShot && Input.GetKeyDown(KeyCode.RightControl)) ShootBullet();
-                break;
-            case ControllerType.Enemy:
-                break;
+            //commom
+            if (other.gameObject == bulletPrefab.gameObject) return;
+            ShipController otherShip = other.gameObject.GetComponent<ShipController>();
+            BulletController otherBullet = other.gameObject.GetComponent<BulletController>();
+            //specific
+            switch (shipType)
+            {
+                case ShipType.Player:
+                    if (otherShip != null && otherShip.shipType != ShipType.Player) Destroy();
+                    else if (otherBullet != null && otherBullet.bulletType != BulletController.BulletType.PlayerStandard) Destroy();
+                    break;
+                case ShipType.EnemyDrone:
+                    if (otherShip != null && otherShip.shipType == ShipType.Player) Destroy();
+                    else if (otherBullet != null && otherBullet.bulletType == BulletController.BulletType.PlayerStandard) Destroy();
+                    break;
+                default:
+                    throw new System.NotImplementedException();
+            }
         }
-    }
 
-    private void IdleEffects()
-    {
-        if (idleEffectsTimer < idleEffectsDelay) { idleEffectsTimer += Time.deltaTime; return; }
-        idleEffectsTimer = 0;
-        shipImg.sprite = shipImg.sprite != shipIdleA ? shipIdleA : shipIdleB;
-    }
-    private void BulletEffects()
-    {
-        if (!(bulletShot && bullet != null)) return;
-        if (bulletEffectsTimer < bulletEffectsDelay) { bulletEffectsTimer += Time.deltaTime; return; }
-        bulletEffectsTimer = 0;
-        bulletImg.sprite = bulletImg.sprite != bulletMovingA ? bulletMovingA : bulletMovingB;
-    }
-    private void CheckEffects()
-    {
-        IdleEffects();
-        BulletEffects();
-    }
-
-    private void SetDefaultValues(ControllerType controllerType)
-    {
-        //common
-        allowHorizontalMovement = true;
-        allowVerticalMovement = true;
-        coordinateLimitX = 54;
-        coordinateLimitY = 60;
-        idleEffectsDelay = 0.1f;
-        bulletEffectsDelay = 0.1f;
-        //specifics
-        switch (controllerType)
+        private void SetDefaultValues()
         {
-            case ControllerType.Player:
-                shipMovementDelay = 0.008f;
-                bulletMovementDelay = 0.004f;
-                autoBulletFireDelay = -1f;
-                break;
-            case ControllerType.Enemy:
-                shipMovementDelay = 0.05f;
-                bulletMovementDelay = 0.01f;
-                autoBulletFireDelay = 1f;
-                break;
-            default:
-                throw new System.NotImplementedException();
+            //common
+            coordinateLimitX = 50;
+            allowHorizontalMovement = true;
+            allowVerticalMovement = true;
+            idleEffectsDelay = 0.1f;
+            //specifics
+            switch (shipType)
+            {
+                case ShipType.Player:
+                    coordinateLimitY = 60;
+                    movementDelay = 0.008f;
+                    break;
+                case ShipType.EnemyDrone:
+                    coordinateLimitY = 80;
+                    movementDelay = 0.016f;
+                    break;
+                default:
+                    throw new System.NotImplementedException();
+            }
         }
-    }
-
-    private void Initialize()
-    {
-        //common
-        SetDefaultValues(controllerType);
-        ship = GetComponent<RectTransform>();
-        shipImg = GetComponent<Image>();
-        shipImg.sprite = shipIdleA;
-        //specifics
-        switch (controllerType)
+        private void Initialize()
         {
-            case ControllerType.Player:
-                ship.anchoredPosition = new Vector2(0, -coordinateLimitY);
-                SpawnBullet();
-                break;
-            case ControllerType.Enemy:
-                ship.anchoredPosition = new Vector2(0, coordinateLimitY);
-                break;
+            //common
+            rectTransform = GetComponent<RectTransform>();
+            image = GetComponent<Image>();
+            if (rectTransform == null || image == null) return;
+            image.sprite = idleImgA;
+            //specifics
+            switch (shipType)
+            {
+                case ShipType.Player:
+                    rectTransform.anchoredPosition = new Vector2(0, -coordinateLimitY);
+                    if (bullet == null) SpawnBullet();
+                    break;
+                case ShipType.EnemyDrone:
+                    rectTransform.anchoredPosition = new Vector2(Random.Range(-coordinateLimitX, coordinateLimitX + 1), coordinateLimitY);
+                    autoMovementDirection = (AutoMovementDirection)Random.Range(0, 2);
+                    break;
+                default:
+                    throw new System.NotImplementedException();
+            }
         }
+        public void Destroy()
+        {
+            //common
+            if (rectTransform == null) return;
+            if (rectTransform.TryGetComponent<Collider2D>(out var collider)) collider.enabled = false;
+            OnDestroyed?.Invoke(this);
+            Destroy(rectTransform.gameObject);
+            rectTransform = null;
+        }
+
+        private void MoveLeft()
+        {
+            if (rectTransform.anchoredPosition.x <= -coordinateLimitX) return;
+            rectTransform.anchoredPosition += (int)(movementTimer/movementDelay) * Vector2.left;
+        }
+        private void MoveRight()
+        {
+            if (rectTransform.anchoredPosition.x >= coordinateLimitX) return;
+            rectTransform.anchoredPosition += (int)(movementTimer / movementDelay) * Vector2.right;
+        }
+        private void MoveUp()
+        {
+            if (rectTransform.anchoredPosition.y >= coordinateLimitY) return;
+            rectTransform.anchoredPosition += (int)(movementTimer / movementDelay) * Vector2.up;
+        }
+        private void MoveDown()
+        {
+            if (rectTransform.anchoredPosition.y <= -coordinateLimitY) return;
+            rectTransform.anchoredPosition += (int)(movementTimer / movementDelay) * Vector2.down;
+        }
+        private void CheckMovement()
+        {
+            //common
+            if (rectTransform == null) return;
+            if (movementTimer < movementDelay) { movementTimer += Time.deltaTime; return; }
+            //specifics
+            switch (shipType)
+            {
+                case ShipType.Player:
+                    if (allowHorizontalMovement && (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))) MoveLeft();
+                    if (allowHorizontalMovement && (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))) MoveRight();
+                    if (allowVerticalMovement && (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W))) MoveUp();
+                    if (allowVerticalMovement && (Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S))) MoveDown();
+                    break;
+                case ShipType.EnemyDrone:
+                    if (rectTransform.anchoredPosition.y <= -coordinateLimitY || rectTransform.anchoredPosition.y > coordinateLimitY) { Destroy(); return; }
+                    if (rectTransform.anchoredPosition.x <= -coordinateLimitX) autoMovementLeftDone = true;
+                    if (rectTransform.anchoredPosition.x >= coordinateLimitX) autoMovementRightDone = true;
+                    if (autoMovementLeftDone && autoMovementRightDone || (Random.Range(0, 9) == 0)) 
+                    { MoveDown(); autoMovementLeftDone = autoMovementRightDone = false; }
+                    if (autoMovementLeftDone && !autoMovementRightDone) autoMovementDirection = AutoMovementDirection.Right;
+                    if (!autoMovementLeftDone && autoMovementRightDone) autoMovementDirection = AutoMovementDirection.Left;
+                    if (!autoMovementLeftDone && autoMovementDirection == AutoMovementDirection.Left) MoveLeft();
+                    if (!autoMovementRightDone && autoMovementDirection == AutoMovementDirection.Right) MoveRight();
+                    break;
+                default:
+                    throw new System.NotImplementedException();
+            }
+            //common
+            movementTimer = 0;
+        }
+
+        private void SpawnBullet()
+        {
+            bullet = Instantiate(bulletPrefab, rectTransform);
+            if (bullet.TryGetComponent(out Collider2D collider)) collider.enabled = false;
+            if (collider != null) collider.enabled = false;
+            bullet.moving = false;
+        }
+        private void ShootBullet()
+        {
+            if (bullet == null) return;
+            if (bullet.TryGetComponent(out Collider2D collider)) collider.enabled = true;
+            OnBulletFired?.Invoke(this);
+            bullet.transform.SetParent(rectTransform.parent, true);
+            bullet.moving = true;
+        }
+        private void CheckActions()
+        {
+            //specifics
+            switch (shipType)
+            {
+                case ShipType.Player:
+                    if (bullet == null) SpawnBullet();
+                    if (!bullet.moving && Input.GetKeyDown(KeyCode.RightControl) || Input.GetKeyDown(KeyCode.Space)) ShootBullet();
+                    break;
+                case ShipType.EnemyDrone:
+                    if (bullet == null) SpawnBullet();
+                    if (!bullet.moving) ShootBullet();
+                    break;
+                default:
+                    throw new System.NotImplementedException();
+            }
+        }
+
+        private void IdleEffects()
+        {
+            if (image == null) return;
+            if (idleEffectsTimer < idleEffectsDelay) { idleEffectsTimer += Time.deltaTime; return; }
+            idleEffectsTimer = 0;
+            image.sprite = image.sprite != idleImgA ? idleImgA : idleImgB;
+        }
+        private void CheckEffects()
+        {
+            IdleEffects();
+        }
+
+        
+
     }
 }
