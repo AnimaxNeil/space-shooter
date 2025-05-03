@@ -50,6 +50,7 @@ Shoot all the enemies and save the galaxy.
 
     * [Itch](https://animaxneil.itch.io/space-shooter)
     * [Gamejolt](https://gamejolt.com/games/space-shooter/990736)
+    * [Github](https://github.com/AnimaxNeil/space-shooter/releases)
 
 ---
 
