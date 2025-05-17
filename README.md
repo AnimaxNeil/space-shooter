@@ -4,11 +4,11 @@
 
 `space-shooter` `unity` `game`
 
-&copy; AnimaxNeil  
+&copy; New Media XP  
 |
-[website](https://www.animaxneil.com)
+[website](https://www.newmediaxp.com)
 |
-[email](mailto:animaxneil@gmail.com)
+[email](mailto:contact@newmediaxp.com)
 |
 
 ---
@@ -56,7 +56,7 @@ Shoot all the enemies and save the galaxy.
 
 ## Contact
 
-* Link: https://www.animaxneil.com/contact
-* Email: animaxneil@gmail.com
+* Link: <https://www.newmediaxp.com/contact>
+* Email: <contact@newmediaxp.com>
 
 ---
